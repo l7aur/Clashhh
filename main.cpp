@@ -7,6 +7,7 @@
 #define CHARACTER_SCALING_FACTOR 2.0f
 #define MAP_SPAWNPOINT {-2600 * MAP_SCALING_FACTOR, -950 * MAP_SCALING_FACTOR}
 #define MAP_ROTATION_ANGLE 0.0f
+#define CHARACTER_ROTATION_ANGLE 0.0f
 #define STEP_SIZE 5.0f
 
 const int window_width = 512;
@@ -50,7 +51,7 @@ int main() {
                                    CHARACTER_SCALING_FACTOR * (float)main_character.width / 10.0f, 
                                    CHARACTER_SCALING_FACTOR * (float)main_character.height},
                         Vector2 {}, 
-                        0.0f,
+                        CHARACTER_ROTATION_ANGLE,
                         WHITE);
 
         //update the position of the main character and the spritesheet
