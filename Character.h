@@ -11,11 +11,11 @@
 class Character
 {
 public:
-    Character(const float map_scaling_factor);
+    Character(const float map_scaling_factor, const int windowWidth, const int windowHeight);
     Vector2 getWorldPos() { return worldPosition; }
-    void setScreenPos(int winWidth, int winHeight);
     void tick(float deltaTime);
     void undoMovement();
+    ~Character();
 
 private:
     Texture2D idle{LoadTexture("assets\\characters\\main_character\\_Idle.png")};

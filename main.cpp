@@ -17,8 +17,7 @@ int main()
     Texture2D background = LoadTexture("assets\\my_map.png");
     Vector2 map_position = MAP_SPAWNPOINT;
 
-    Character * main_character = new Character(MAP_SCALING_FACTOR);
-    main_character->setScreenPos(window_width, window_height);
+    Character * main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
@@ -44,6 +43,7 @@ int main()
     }
 
     UnloadTexture(background);
+    main_character->~Character();
     CloseWindow();
     return 0;
 }
