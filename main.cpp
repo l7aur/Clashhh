@@ -19,7 +19,7 @@ int main()
     Vector2 map_position = MAP_SPAWNPOINT;
 
     Character * main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
-    Prop * barrel = new Prop(Vector2{0.0f, 0.0f}, LoadTexture("assets\\tiles\\barrel.png"));
+    Prop * rock = new Prop(Vector2{0.0f, 0.0f}, LoadTexture("assets\\tiles\\rock.png"));
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
@@ -31,7 +31,7 @@ int main()
 
         // draw the background
         DrawTextureEx(background, map_position, MAP_ROTATION_ANGLE, MAP_SCALING_FACTOR, WHITE);
-        barrel->render(main_character->getWorldPos());
+        rock->render(main_character->getWorldPos());
 
         main_character->tick(GetFrameTime());
 

@@ -8,6 +8,6 @@ class Prop {
         Prop(Vector2 worldPos, Texture2D texture);
         void render(Vector2 characterPosition);
     private:
-        Texture2D texture{};
         Vector2 worldPosition{};
+        Texture2D texture{};
 };
