@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Character.h"
+#include "Prop.h"
 
 #define BACKGROUND_COLOR BLACK
 #define MAP_SCALING_FACTOR 2.5f
@@ -18,6 +19,7 @@ int main()
     Vector2 map_position = MAP_SPAWNPOINT;
 
     Character * main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
+    Prop * barrel = new Prop(Vector2{0.0f, 0.0f}, LoadTexture("assets\\tiles\\barrel.png"));
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
@@ -29,6 +31,8 @@ int main()
 
         // draw the background
         DrawTextureEx(background, map_position, MAP_ROTATION_ANGLE, MAP_SCALING_FACTOR, WHITE);
+        barrel->render(main_character->getWorldPos());
+
         main_character->tick(GetFrameTime());
 
         //check map bounds  
