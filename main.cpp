@@ -19,7 +19,7 @@ int main()
     Vector2 map_position = MAP_SPAWNPOINT;
 
     Character * main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
-    Prop * rock = new Prop(Vector2{0.0f, 0.0f}, LoadTexture("assets\\tiles\\rock.png"));
+    Prop * rock = new Prop(Vector2{0.0f, 0.0f}, LoadTexture("assets\\tiles\\rock.png"), 2.0f);
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
