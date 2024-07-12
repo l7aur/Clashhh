@@ -1,7 +1,7 @@
 #include "raylib.h"
 
 #define CHARACTER_ROTATION_ANGLE 0.0f
-#define STEP_SIZE 5.0f
+#define STEP_SIZE 4.0f
 #define MAP_SPAWNPOINT {2500, 1000}
 
 class Character
