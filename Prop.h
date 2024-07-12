@@ -4,8 +4,10 @@
 
 class Prop {
     public:
-        Prop(Vector2 worldPos, Texture2D texture, float scalingFactor);
+        Prop(const float map_scaling_factor, const Vector2 worldPos, const Texture2D texture, const float scalingFactor);
         void render(Vector2 characterPosition);
+        Rectangle getCollisionRec(Vector2 characterPosition);
+        ~Prop();
     private:
         Vector2 worldPosition{};
         Texture2D texture{};

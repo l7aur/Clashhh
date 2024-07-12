@@ -2,11 +2,7 @@
 
 #define CHARACTER_ROTATION_ANGLE 0.0f
 #define STEP_SIZE 5.0f
-#define CHARACTER_SCALING_FACTOR 2.0f
-#define MAP_SPAWNPOINT                                              \
-    {                                                               \
-        2600 /* *MAP_SCALING_FACTOR*/, 950 /* *MAP_SCALING_FACTOR*/ \
-    }
+#define MAP_SPAWNPOINT {2500, 1000}
 
 class Character
 {
@@ -15,9 +11,12 @@ public:
     Vector2 getWorldPos() { return worldPosition; }
     void tick(float deltaTime);
     void undoMovement();
+    Rectangle getCollisionRec();
     ~Character();
 
 private:
+    Vector2 computeDirection();
+
     Texture2D idle{LoadTexture("assets\\characters\\main_character\\_Idle.png")};
     Texture2D running{LoadTexture("assets\\characters\\main_character\\_Run.png")};
     Texture2D texture = idle;
@@ -32,4 +31,5 @@ private:
     int width{};
     int height{};
     const int numberOfFrames{10};
+    const float scale{2.0f};
 };
