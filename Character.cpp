@@ -18,15 +18,5 @@ Character::~Character() {
 
 void Character::tick(float deltaTime)
 {
-    Vector2 direction = computeDirection();
-
-    if (Vector2Length(direction) > 5.0f)
-        direction = Vector2Scale(Vector2Normalize(direction), 5.0f);
-    this->pastWorldPosition = this->worldPosition;
-    this->worldPosition = Vector2Add(this->worldPosition, direction);
-    if (direction.x)
-        (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    (Vector2Length(direction)) ? this->texture = this->running : this->texture = this->idle;
-
     BaseCharacter::tick(deltaTime);
 }

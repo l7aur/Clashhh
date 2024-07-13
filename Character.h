@@ -15,6 +15,7 @@ class Character : public BaseCharacter
 public:
     Character(const float map_scaling_factor, const int windowWidth, const int windowHeight);
     virtual void tick(float deltaTime) override;
+    inline Vector2 getScreenPosition() { return this->screenPosition; }
     ~Character();
 
 private:

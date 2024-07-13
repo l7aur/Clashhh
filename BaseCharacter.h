@@ -7,13 +7,13 @@ class BaseCharacter
 {
 public:
     BaseCharacter();
-    Vector2 getWorldPos() { return worldPosition; }
+    inline Vector2 getWorldPos() { return worldPosition; }
     void undoMovement();
     Rectangle getCollisionRec();
     virtual void tick(float deltaTime); 
+    virtual Vector2 computeDirection();
     ~BaseCharacter();
 protected:
-    Vector2 computeDirection();
 
     Texture2D idle{LoadTexture("assets\\characters\\main_character\\_Idle.png")};
     Texture2D running{LoadTexture("assets\\characters\\main_character\\_Run.png")};

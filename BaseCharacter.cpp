@@ -21,6 +21,16 @@ Rectangle BaseCharacter::getCollisionRec()
 
 void BaseCharacter::tick(float deltaTime)
 {
+    Vector2 direction = computeDirection();
+
+    this->pastWorldPosition = this->worldPosition;
+    this->worldPosition = Vector2Add(this->worldPosition, direction);
+    if (direction.x)
+        (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
+    (Vector2Length(direction)) ? this->texture = this->running : this->texture = this->idle;
+
+    worldPosition = Vector2Add(worldPosition, direction);
+
     // change the frame of character
     this->runningTime += deltaTime;
     if (this->runningTime >= this->updateTime)
@@ -50,6 +60,8 @@ Vector2 BaseCharacter::computeDirection()
         direction.y -= 5;
     if (IsKeyDown(KEY_S))
         direction.y += 5;
+    if (Vector2Length(direction) > 5.0f)
+        direction = Vector2Scale(Vector2Normalize(direction), 5.0f);
     return direction;
 }
 
