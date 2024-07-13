@@ -13,22 +13,25 @@
 const int window_width = 1024; // 512;
 const int window_height = 512;
 
-void setPropsOnTheMap(std::vector<Prop>& props);
+void setPropsOnTheMap(std::vector<Prop> &props);
 
 int main()
 {
     InitWindow(window_width, window_height, "CLASHHH");
 
     Texture2D background = LoadTexture("assets\\my_map.png");
-    Vector2 map_position = MAP_SPAWNPOINT;
+    Vector2 map_position = spawnpoint;
 
-    Character *main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
-    
-    Enemy * enemy = new Enemy(MAP_SCALING_FACTOR, {10,10 }, LoadTexture("assets\\characters\\orc\\Orc-Idle.png"),
-                                                  LoadTexture("assets\\characters\\orc\\Orc-Walk.png"), 6, main_character);
+    Character *main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height, 5,
+                                              LoadTexture("assets\\characters\\main_character\\_Idle.png"),
+                                              LoadTexture("assets\\characters\\main_character\\_Run.png"));
+
+    Enemy *enemy = new Enemy(MAP_SCALING_FACTOR, {10, 10}, main_character, 6, 3,
+                             LoadTexture("assets\\characters\\orc\\Orc-Idle.png"),
+                             LoadTexture("assets\\characters\\orc\\Orc-Walk.png"));
 
     std::vector<Prop> props;
-    setPropsOnTheMap(props); 
+    setPropsOnTheMap(props);
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
@@ -40,18 +43,18 @@ int main()
         // draw the background
         DrawTextureEx(background, map_position, MAP_ROTATION_ANGLE, MAP_SCALING_FACTOR, WHITE);
 
-        //render props
-        for(auto p: props) {
+        // render props
+        for (auto p : props)
+        {
             p.render(main_character->getWorldPos());
-            if(CheckCollisionRecs(p.getCollisionRec(main_character->getWorldPos()), main_character->getCollisionRec()))
+            if (CheckCollisionRecs(p.getCollisionRec(main_character->getWorldPos()), main_character->getCollisionRec()))
                 main_character->undoMovement();
         }
 
         main_character->tick(GetFrameTime());
         enemy->tick(GetFrameTime());
 
-            std::cout<<enemy->getWorldPos().x << ' ' <<enemy->getWorldPos().y << ' ' <<
-            main_character->getWorldPos().x << ' ' << main_character->getWorldPos().y << '\n';
+        std::cout << enemy->getWorldPos().x << ' ' << enemy->getWorldPos().y << ' ' << main_character->getWorldPos().x << ' ' << main_character->getWorldPos().y << '\n';
 
         // check map bounds
         if (main_character->getWorldPos().x < 0.0f ||
@@ -62,7 +65,7 @@ int main()
             main_character->undoMovement();
         }
 
-        //collision boxes debug
+        // collision boxes debug
         /*DrawRectangle(props[0].getCollisionRec(main_character->getWorldPos()).x,
                     props[0].getCollisionRec(main_character->getWorldPos()).y,
                     props[0].getCollisionRec(main_character->getWorldPos()).width,
@@ -80,7 +83,7 @@ int main()
                     main_character->getCollisionRec().width,
                     main_character->getCollisionRec().height,
                     GREEN
-                    );*/    
+                    );*/
 
         EndDrawing();
     }
@@ -91,11 +94,10 @@ int main()
     return 0;
 }
 
-void setPropsOnTheMap(std::vector<Prop>& props) {
+void setPropsOnTheMap(std::vector<Prop> &props)
+{
     props.push_back(
-        Prop(MAP_SCALING_FACTOR, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\props\\rock1.png"), 5.0f)
-    );
+        Prop(MAP_SCALING_FACTOR, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\props\\rock1.png"), 5.0f));
     props.push_back(
-        Prop(MAP_SCALING_FACTOR, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\props\\rock2.png"), 3.0f)
-    );
+        Prop(MAP_SCALING_FACTOR, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\props\\rock2.png"), 3.0f));
 }
