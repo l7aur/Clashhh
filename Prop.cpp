@@ -7,13 +7,9 @@ Prop::Prop(const float map_scaling_factor, const Vector2 worldPos, const Texture
     scalingFactor(scalingFactor)
 { }
 
-Prop::~Prop() {
-    //UnloadTexture(this->texture);
-}
-
 void Prop::render(Vector2 characterPosition) {
     Vector2 screenPosition = Vector2Subtract(this->worldPosition, characterPosition);
-    DrawTextureEx(this->texture, screenPosition, PROP_ROTATION_ANGLE, this->scalingFactor, WHITE);
+    DrawTextureEx(this->texture, screenPosition, prop_rotation_angle, this->scalingFactor, WHITE);
 }
 
 Rectangle Prop::getCollisionRec(Vector2 characterPosition) {
@@ -24,3 +20,7 @@ Rectangle Prop::getCollisionRec(Vector2 characterPosition) {
         this->texture.width * this->scalingFactor - 2 * minimize, this->texture.height * this->scalingFactor - 2 * minimize
     };
 }
+
+// Prop::~Prop() {
+//     UnloadTexture(this->texture);
+// }

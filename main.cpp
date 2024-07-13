@@ -6,14 +6,18 @@
 #include "Prop.h"
 #include <vector>
 
-#define BACKGROUND_COLOR BLACK
-#define MAP_SCALING_FACTOR 2.5f
-#define MAP_ROTATION_ANGLE 0.0f
-
-const int window_width = 1024; // 512;
+const Color background_color = BLACK;
+const float map_scaling_factor = 2.5f;
+const float map_rotation_angle = 0.0f;
+const int window_width = 1024;
 const int window_height = 512;
+const float main_character_speed = 3.0f;
+const int number_of_frames_orc = 6;
+const int number_of_frames_soldier = 6;
 
-void setPropsOnTheMap(std::vector<Prop> &props);
+void setPropsOnTheMap(std::vector<Prop *> &props);
+void setOrcsOnTheMap(Character *main_character, std::vector<Enemy *> &orcs);
+void setSoldiersOnTheMap(Character *main_character, std::vector<Enemy *> &soldiers);
 
 int main()
 {
@@ -22,45 +26,49 @@ int main()
     Texture2D background = LoadTexture("assets\\my_map.png");
     Vector2 map_position = spawnpoint;
 
-    Character *main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height, 5,
+    std::vector<Enemy *> orcs;
+    std::vector<Enemy *> soldiers;
+    std::vector<Prop *> props;
+
+    Character *main_character = new Character(map_scaling_factor, window_width, window_height, main_character_speed,
                                               LoadTexture("assets\\characters\\main_character\\_Idle.png"),
                                               LoadTexture("assets\\characters\\main_character\\_Run.png"));
 
-    Enemy *enemy = new Enemy(MAP_SCALING_FACTOR, {10, 10}, main_character, 6, 3,
-                             LoadTexture("assets\\characters\\orc\\Orc-Idle.png"),
-                             LoadTexture("assets\\characters\\orc\\Orc-Walk.png"));
-
-    std::vector<Prop> props;
     setPropsOnTheMap(props);
+    setOrcsOnTheMap(main_character, orcs);
+    setSoldiersOnTheMap(main_character, soldiers);
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(BACKGROUND_COLOR);
+        ClearBackground(background_color);
         map_position = Vector2Scale(main_character->getWorldPos(), -1.0f);
 
         // draw the background
-        DrawTextureEx(background, map_position, MAP_ROTATION_ANGLE, MAP_SCALING_FACTOR, WHITE);
+        DrawTextureEx(background, map_position, map_rotation_angle, map_scaling_factor, WHITE);
 
         // render props
         for (auto p : props)
         {
-            p.render(main_character->getWorldPos());
-            if (CheckCollisionRecs(p.getCollisionRec(main_character->getWorldPos()), main_character->getCollisionRec()))
+            p->render(main_character->getWorldPos());
+            if (CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), main_character->getCollisionRec()))
                 main_character->undoMovement();
         }
 
-        main_character->tick(GetFrameTime());
-        enemy->tick(GetFrameTime());
-
-        std::cout << enemy->getWorldPos().x << ' ' << enemy->getWorldPos().y << ' ' << main_character->getWorldPos().x << ' ' << main_character->getWorldPos().y << '\n';
+        // update characters
+        float deltaTime = GetFrameTime();
+        main_character->tick(deltaTime);
+        for (Enemy *orc : orcs)
+            orc->tick(deltaTime);
+        for (Enemy *soldier : soldiers)
+            soldier->tick(deltaTime);
 
         // check map bounds
         if (main_character->getWorldPos().x < 0.0f ||
             main_character->getWorldPos().y < 0.0f ||
-            main_character->getWorldPos().x + window_width > background.width * MAP_SCALING_FACTOR ||
-            main_character->getWorldPos().y + window_height > background.height * MAP_SCALING_FACTOR)
+            main_character->getWorldPos().x + window_width > background.width * map_scaling_factor ||
+            main_character->getWorldPos().y + window_height > background.height * map_scaling_factor)
         {
             main_character->undoMovement();
         }
@@ -94,10 +102,23 @@ int main()
     return 0;
 }
 
-void setPropsOnTheMap(std::vector<Prop> &props)
+void setOrcsOnTheMap(Character *main_character, std::vector<Enemy *> &orcs)
 {
-    props.push_back(
-        Prop(MAP_SCALING_FACTOR, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\props\\rock1.png"), 5.0f));
-    props.push_back(
-        Prop(MAP_SCALING_FACTOR, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\props\\rock2.png"), 3.0f));
+    Texture2D idle = LoadTexture("assets\\characters\\orc\\Orc-Idle.png");
+    Texture2D running = LoadTexture("assets\\characters\\orc\\Orc-Walk.png");
+    orcs.push_back(new Enemy(map_scaling_factor, {2500 * map_scaling_factor, 1000 * map_scaling_factor}, main_character, number_of_frames_orc, /*speed*/ 1.0f, idle, running));
+}
+
+void setSoldiersOnTheMap(Character *main_character, std::vector<Enemy *> &soldiers)
+{
+    Texture2D idle = LoadTexture("assets\\characters\\soldier\\Soldier-Idle.png");
+    Texture2D running = LoadTexture("assets\\characters\\soldier\\Soldier-Walk.png");
+    soldiers.push_back(new Enemy(map_scaling_factor, {3000 * map_scaling_factor, 1500 * map_scaling_factor}, main_character, number_of_frames_soldier, /*speed*/ 1.5f, idle, running));
+
+}
+
+void setPropsOnTheMap(std::vector<Prop *> &props)
+{
+    props.push_back(new Prop(map_scaling_factor, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\props\\rock1.png"), 5.0f));
+    props.push_back(new Prop(map_scaling_factor, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\props\\rock2.png"), 3.0f));
 }

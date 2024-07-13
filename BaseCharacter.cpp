@@ -62,4 +62,7 @@ Vector2 BaseCharacter::computeDirection()
 
 BaseCharacter::~BaseCharacter()
 {
+    UnloadTexture(idle);
+    UnloadTexture(running);
+    UnloadTexture(texture);
 }
