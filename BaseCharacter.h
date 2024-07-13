@@ -28,7 +28,7 @@ protected:
     const float speed = 5.0f;
     int width{};
     int height{};
-    const int numberOfFrames{10};
+    int numberOfFrames{10};
     const float scale{2.0f};
 
 private:

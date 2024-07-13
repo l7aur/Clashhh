@@ -1,7 +1,6 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "raylib.h"
 #include "BaseCharacter.h"
 
 #define CHARACTER_ROTATION_ANGLE 0.0f

@@ -25,7 +25,7 @@ int main()
     Character *main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
     
     Enemy * enemy = new Enemy(MAP_SCALING_FACTOR, {10, 10}, LoadTexture("assets\\characters\\orc\\Orc-Idle.png"),
-                                                  LoadTexture("assets\\characters\\orc\\Orc-Walk.png"));
+                                                  LoadTexture("assets\\characters\\orc\\Orc-Walk.png"), 6);
 
     std::vector<Prop> props;
     setPropsOnTheMap(props); 

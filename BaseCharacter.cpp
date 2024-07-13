@@ -1,5 +1,5 @@
-#include "raymath.h"
 #include "BaseCharacter.h"
+#include "raymath.h"
 
 BaseCharacter::BaseCharacter()
 {
