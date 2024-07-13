@@ -1,3 +1,6 @@
+#ifndef PROP_H
+#define PROP_H
+
 #include "raylib.h"
 
 #define PROP_ROTATION_ANGLE 0.0f
@@ -13,3 +16,5 @@ class Prop {
         Texture2D texture{};
         float scalingFactor{1.0};
 };
+
+#endif

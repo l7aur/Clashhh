@@ -16,19 +16,6 @@ Character::~Character() {
     UnloadTexture(this->texture);
 }
 
-Vector2 Character::computeDirection() {
-    Vector2 direction = {0.0f, 0.0f};
-    if (IsKeyDown(KEY_A))
-        direction.x -= STEP_SIZE;
-    if (IsKeyDown(KEY_D))
-        direction.x += STEP_SIZE;
-    if (IsKeyDown(KEY_W))
-        direction.y -= STEP_SIZE;
-    if (IsKeyDown(KEY_S))
-        direction.y += STEP_SIZE;
-    return direction;
-}
-
 void Character::tick(float deltaTime)
 {
     Vector2 direction = computeDirection();
@@ -46,7 +33,7 @@ void Character::tick(float deltaTime)
     if (this->runningTime >= this->updateTime)
     {
         this->runningTime = 0.0f;
-        this->frame = (this->frame + 1) % 10;
+        this->frame = (this->frame + 1) % numberOfFrames;
     }
     // draw the main character
     DrawTexturePro(texture,
@@ -56,16 +43,4 @@ void Character::tick(float deltaTime)
                    Vector2{},
                    CHARACTER_ROTATION_ANGLE,
                    WHITE);
-}
-
-void Character::undoMovement()
-{
-    this->worldPosition = this->pastWorldPosition;
-}
-
-Rectangle Character::getCollisionRec() {
-    return Rectangle {
-        this->screenPosition.x + 45 * this->scale, this->screenPosition.y,
-        30 * this->scale, this->height * this->scale
-    };
 }

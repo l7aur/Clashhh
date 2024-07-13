@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Character.h"
+#include "Enemy.h"
 #include "Prop.h"
 #include <vector>
 
@@ -22,6 +23,9 @@ int main()
     Vector2 map_position = MAP_SPAWNPOINT;
 
     Character *main_character = new Character(MAP_SCALING_FACTOR, window_width, window_height);
+    
+    Enemy * enemy = new Enemy(MAP_SCALING_FACTOR, {10, 10}, LoadTexture("assets\\characters\\orc\\Orc-Idle.png"),
+                                                  LoadTexture("assets\\characters\\orc\\Orc-Walk.png"));
 
     std::vector<Prop> props;
     setPropsOnTheMap(props); 
@@ -44,6 +48,10 @@ int main()
         }
 
         main_character->tick(GetFrameTime());
+        enemy->tick(GetFrameTime());
+
+            std::cout<<enemy->getWorldPos().x << ' ' <<enemy->getWorldPos().y << ' ' <<
+            main_character->getWorldPos().x << ' ' << main_character->getWorldPos().y << '\n';
 
         // check map bounds
         if (main_character->getWorldPos().x < 0.0f ||
@@ -79,6 +87,7 @@ int main()
 
     UnloadTexture(background);
     main_character->~Character();
+    enemy->~Enemy();
     for(auto p: props)
         p.~Prop();
 
@@ -88,9 +97,9 @@ int main()
 
 void setPropsOnTheMap(std::vector<Prop>& props) {
     props.push_back(
-        Prop(MAP_SCALING_FACTOR, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\tiles\\rock.png"), 5.0f)
+        Prop(MAP_SCALING_FACTOR, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\props\\rock1.png"), 5.0f)
     );
     props.push_back(
-        Prop(MAP_SCALING_FACTOR, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\tiles\\rock.png"), 3.0f)
+        Prop(MAP_SCALING_FACTOR, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\props\\rock2.png"), 3.0f)
     );
 }
