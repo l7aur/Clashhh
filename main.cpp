@@ -105,7 +105,6 @@ int main()
 void setOrcsOnTheMap(Character *main_character, std::vector<Enemy *> &orcs)
 {
     const float patrolledArea = 250.f;
-
     Texture2D idle = LoadTexture("assets\\characters\\orc\\Orc-Idle.png");
     Texture2D running = LoadTexture("assets\\characters\\orc\\Orc-Walk.png");
     orcs.push_back(new Enemy(map_scaling_factor, {2500 * map_scaling_factor, 1000 * map_scaling_factor}, main_character, number_of_frames_orc, /*speed*/ 1.0f, patrolledArea, idle, running));
@@ -117,11 +116,11 @@ void setSoldiersOnTheMap(Character *main_character, std::vector<Enemy *> &soldie
     Texture2D idle = LoadTexture("assets\\characters\\soldier\\Soldier-Idle.png");
     Texture2D running = LoadTexture("assets\\characters\\soldier\\Soldier-Walk.png");
     soldiers.push_back(new Enemy(map_scaling_factor, {3000 * map_scaling_factor, 1500 * map_scaling_factor}, main_character, number_of_frames_soldier, /*speed*/ 1.5f, patrolledArea, idle, running));
-
 }
 
 void setPropsOnTheMap(std::vector<Prop *> &props)
 {
     props.push_back(new Prop(map_scaling_factor, Vector2{2600.0f, 800.0f}, LoadTexture("assets\\props\\rock1.png"), 5.0f));
     props.push_back(new Prop(map_scaling_factor, Vector2{2800.0f, 800.0f}, LoadTexture("assets\\props\\rock2.png"), 3.0f));
+    props.push_back(new Prop(map_scaling_factor, Vector2{3000.0f, 800.0f}, LoadTexture("assets\\props\\chest.png"), 3.0f));
 }

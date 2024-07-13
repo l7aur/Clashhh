@@ -1,7 +1,9 @@
 #include "Character.h"
 #include "raymath.h"
 
-Character::Character(const float map_scaling_factor, const int windowWidth, const int windowHeight, const float stepSize, Texture2D idle_texture, Texture2D running_texture) : windowWidth(windowWidth), windowHeight(windowHeight)
+Character::Character(const float map_scaling_factor, const int windowWidth, const int windowHeight, const float stepSize, Texture2D idle_texture, Texture2D running_texture)
+    : windowWidth(windowWidth),
+      windowHeight(windowHeight)
 {
     this->idle = idle_texture, this->running = running_texture, this->texture = idle;
     this->stepSize = stepSize;

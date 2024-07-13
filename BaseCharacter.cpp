@@ -8,10 +8,9 @@ void BaseCharacter::undoMovement()
 
 Rectangle BaseCharacter::getCollisionRec()
 {
-    return Rectangle {
+    return Rectangle{
         this->getScreenPosition().x + 45 * this->scale, this->getScreenPosition().y,
-        30 * this->scale, this->height * this->scale
-    };
+        30 * this->scale, this->height * this->scale};
 }
 
 void BaseCharacter::tick(float deltaTime)
