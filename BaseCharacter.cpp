@@ -19,6 +19,26 @@ Rectangle BaseCharacter::getCollisionRec()
     };
 }
 
+void BaseCharacter::tick(float deltaTime)
+{
+    // change the frame of character
+    this->runningTime += deltaTime;
+    if (this->runningTime >= this->updateTime)
+    {
+        this->runningTime = 0.0f;
+        this->frame = (this->frame + 1) % numberOfFrames;
+    }
+
+    // draw the character
+    DrawTexturePro(texture,
+                   Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
+                   Rectangle{this->screenPosition.x, this->screenPosition.y,
+                             this->scale * static_cast<float>(width), this->scale * static_cast<float>(height)},
+                   Vector2{},
+                   0.0f,
+                   WHITE);
+}
+
 Vector2 BaseCharacter::computeDirection()
 {
     Vector2 direction = {0.0f, 0.0f};

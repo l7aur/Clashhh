@@ -86,10 +86,6 @@ int main()
     }
 
     UnloadTexture(background);
-    main_character->~Character();
-    enemy->~Enemy();
-    for(auto p: props)
-        p.~Prop();
 
     CloseWindow();
     return 0;

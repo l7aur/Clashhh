@@ -10,8 +10,8 @@ public:
     Vector2 getWorldPos() { return worldPosition; }
     void undoMovement();
     Rectangle getCollisionRec();
+    virtual void tick(float deltaTime); 
     ~BaseCharacter();
-
 protected:
     Vector2 computeDirection();
 

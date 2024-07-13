@@ -14,7 +14,7 @@ class Character : public BaseCharacter
 {
 public:
     Character(const float map_scaling_factor, const int windowWidth, const int windowHeight);
-    void tick(float deltaTime);
+    virtual void tick(float deltaTime) override;
     ~Character();
 
 private:
