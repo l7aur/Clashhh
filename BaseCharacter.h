@@ -14,6 +14,7 @@ public:
     virtual void tick(float deltaTime); 
     virtual Vector2 computeDirection();
     virtual Vector2 getScreenPosition() = 0; //pure virtual function => abstract class
+    virtual Rectangle getAttackArea() = 0;
     ~BaseCharacter();
 protected:
 

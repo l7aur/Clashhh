@@ -16,6 +16,11 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
 void Enemy::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
+    if(!attackingAnimation && IsKeyPressed(KEY_G)) {
+        texture = attacking;
+        attackingAnimation = true;
+        this->frame = 0;
+    }
     // draw the character
     DrawTexturePro(texture,
                    Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
@@ -47,6 +52,13 @@ Vector2 Enemy::computeDirection()
 Vector2 Enemy::getScreenPosition()
 {
     return Vector2Subtract(this->worldPosition, this->target->getWorldPos());
+}
+
+Rectangle Enemy::getAttackArea()
+{
+    if(!attackingAnimation) return Rectangle();
+    if(this->frame < 2) return Rectangle();
+    return Rectangle{this->getScreenPosition().x + 150, this->getScreenPosition().y + 100, 20.0f, 25.0f};
 }
 
 Enemy::~Enemy()

@@ -10,6 +10,7 @@ public:
     virtual void tick(float deltaTime) override;
     virtual Vector2 computeDirection() override;
     virtual Vector2 getScreenPosition() override;
+    virtual Rectangle getAttackArea() override;
     inline int getFigureHeight() { return 40; }
     inline int getFigureWidth() { return 30; }
     ~Character();

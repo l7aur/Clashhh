@@ -33,6 +33,7 @@ void BaseCharacter::tick(float deltaTime)
         if (this->frame == 5 && attackingAnimation) attackingAnimation = false;
         this->frame = (this->frame + 1) % numberOfFrames;
     }
+    DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, RED);
 }
 
 Vector2 BaseCharacter::computeDirection()

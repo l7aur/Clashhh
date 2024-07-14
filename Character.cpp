@@ -50,3 +50,10 @@ inline Vector2 Character::getScreenPosition()
     return {static_cast<float>(windowWidth) / 2.0f - this->width / 2.0f - 65.0f,
             static_cast<float>(windowHeight) / 2.0f - this->height / 2.0f - 25.0f};
 }
+
+Rectangle Character::getAttackArea()
+{
+    if(!attackingAnimation) return Rectangle();
+    if(this->frame == 0 || this->frame == 5) return Rectangle();
+    return Rectangle{this->getScreenPosition().x + 150, this->getScreenPosition().y - 10, 70.0f, 100.0f};
+}

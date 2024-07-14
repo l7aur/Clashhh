@@ -12,6 +12,7 @@ public:
     inline void setTarget(Character *character) { this->target = character; }
     virtual Vector2 computeDirection() override;
     virtual Vector2 getScreenPosition() override;
+    virtual Rectangle getAttackArea() override;
     ~Enemy();
 
 private:
