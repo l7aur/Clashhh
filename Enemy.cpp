@@ -29,7 +29,7 @@ Vector2 Enemy::computeDirection()
     float magnitude = Vector2Length(direction);
     if (magnitude > patrolledArea)
         return {0, 0};
-    if (magnitude < 10.0f)
+    if (magnitude < 10.0f) //remove flickering when to the target
         return {0, 0};
     if (magnitude < range)
         return {0, 0};
