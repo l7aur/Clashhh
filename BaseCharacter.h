@@ -19,6 +19,7 @@ protected:
 
     Texture2D idle{};
     Texture2D running{};
+    Texture2D attacking{};
     Texture2D texture{};
     Vector2 worldPosition{spawnpoint};
     Vector2 pastWorldPosition{};
@@ -31,7 +32,7 @@ protected:
     int numberOfFrames{10};
     const float scale{2.0f};
     float stepSize{0};
-
+    bool attackingAnimation{false};
 private:
 
 };

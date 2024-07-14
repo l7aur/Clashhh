@@ -30,7 +30,8 @@ int main()
 
     Character *main_character = new Character(map_scaling_factor, window_width, window_height, main_character_speed,
                                               LoadTexture("assets\\characters\\main_character\\_Idle.png"),
-                                              LoadTexture("assets\\characters\\main_character\\_Run.png"));
+                                              LoadTexture("assets\\characters\\main_character\\_Run.png"),
+                                              LoadTexture("assets\\characters\\main_character\\_Attack2.png"));
 
     setPropsOnTheMap(props);
     setOrcsOnTheMap(main_character, orcs);
@@ -108,25 +109,25 @@ void setOrcsOnTheMap(Character *main_character, std::vector<Enemy *> &orcs)
     const float range = 20.0f;
     Texture2D idle = LoadTexture("assets\\characters\\orc\\Orc-Idle.png");
     Texture2D running = LoadTexture("assets\\characters\\orc\\Orc-Walk.png");
-
+    Texture2D attacking = LoadTexture("assets\\characters\\orc\\Orc-Attack01.png");
     // spawn_island
     for (int i = 0; i < 30; i++)
     { // above spawnpoint
         float xCoord = static_cast<float>(rand() % 880 + 2700);
         float yCoord = static_cast<float>(rand() % 760 + 180);
-        orcs.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_orc, orcSpeed, patrolledArea, range, idle, running));
+        orcs.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_orc, orcSpeed, patrolledArea, range, idle, running, attacking));
     }
     for (int i = 0; i < 20; i++)
     { // below spawnpoint
         float xCoord = static_cast<float>(rand() % 880 + 2700);
         float yCoord = static_cast<float>(rand() % 360 + 1280);
-        orcs.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_orc, orcSpeed, patrolledArea, range, idle, running));
+        orcs.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_orc, orcSpeed, patrolledArea, range, idle, running, attacking));
     }
     for (int i = 0; i < 20; i++)
     { // right of spawnpoint
         float xCoord = static_cast<float>(rand() % 700 + 2950);
         float yCoord = static_cast<float>(rand() % 700 + 800);
-        orcs.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_orc, orcSpeed, patrolledArea, range, idle, running));
+        orcs.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_orc, orcSpeed, patrolledArea, range, idle, running, attacking));
     }
 }
 
@@ -138,37 +139,38 @@ void setSoldiersOnTheMap(Character *main_character, std::vector<Enemy *> &soldie
     const float range = 20.0f;
     Texture2D idle = LoadTexture("assets\\characters\\soldier\\Soldier-Idle.png");
     Texture2D running = LoadTexture("assets\\characters\\soldier\\Soldier-Walk.png");
+    Texture2D attacking = LoadTexture("assets\\characters\\soldier\\Soldier-Attack01.png");
 
     // middle island
     for (int i = 0; i < 30; i++)
     { // leftmost area
         float xCoord = static_cast<float>(rand() % 730 + 230);
         float yCoord = static_cast<float>(rand() % 665 + 190);
-        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running));
+        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running, attacking));
     }
     for (int i = 0; i < 30; i++)
     { // central area
         float xCoord = static_cast<float>(rand() % 950 + 1100);
         float yCoord = static_cast<float>(rand() % 590 + 425);
-        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running));
+        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running, attacking));
     }
     for (int i = 0; i < 30; i++)
     { // upperright lobe area
         float xCoord = static_cast<float>(rand() % 480 + 1480);
         float yCoord = static_cast<float>(rand() % 240 + 200);
-        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running));
+        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running, attacking));
     }
     for (int i = 0; i < 30; i++)
     { // lowerright lobe1 area
         float xCoord = static_cast<float>(rand() % 530 + 1580);
         float yCoord = static_cast<float>(rand() % 250 + 1000);
-        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running));
+        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running, attacking));
     }
     for (int i = 0; i < 30; i++)
     { // lowerright lobe2 area
         float xCoord = static_cast<float>(rand() % 450 + 1830);
         float yCoord = static_cast<float>(rand() % 450 + 1350);
-        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running));
+        soldiers.push_back(new Enemy(map_scaling_factor, {xCoord, yCoord}, main_character, number_of_frames_soldier, soldierSpeed, patrolledArea, range, idle, running, attacking));
     }
 }
 

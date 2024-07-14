@@ -16,12 +16,12 @@ Rectangle BaseCharacter::getCollisionRec()
 void BaseCharacter::tick(float deltaTime)
 {
     Vector2 direction = computeDirection();
-
     this->pastWorldPosition = this->worldPosition;
     this->worldPosition = Vector2Add(this->worldPosition, direction);
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    (Vector2Length(direction)) ? this->texture = this->running : this->texture = this->idle;
+    if(!attackingAnimation)
+        (Vector2Length(direction))? this->texture = this->running : this->texture = this->idle;
 
     worldPosition = Vector2Add(worldPosition, direction);
 
@@ -30,17 +30,9 @@ void BaseCharacter::tick(float deltaTime)
     if (this->runningTime >= this->updateTime)
     {
         this->runningTime = 0.0f;
+        if (this->frame == 5 && attackingAnimation) attackingAnimation = false;
         this->frame = (this->frame + 1) % numberOfFrames;
     }
-
-    // draw the character
-    DrawTexturePro(texture,
-                   Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
-                   Rectangle{this->getScreenPosition().x, this->getScreenPosition().y,
-                             this->scale * static_cast<float>(width), this->scale * static_cast<float>(height)},
-                   Vector2{},
-                   0.0f,
-                   WHITE);
 }
 
 Vector2 BaseCharacter::computeDirection()

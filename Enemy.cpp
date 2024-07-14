@@ -1,11 +1,11 @@
 #include "Enemy.h"
 #include "raymath.h"
 
-Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrolledArea, const float range, Texture2D idle_texture, Texture2D running_texture)
+Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrolledArea, const float range, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture)
     : target(target), patrolledArea(patrolledArea),
       correctionFactor(Vector2Scale({static_cast<float>(-target->getFigureWidth()), static_cast<float>(target->getFigureHeight())}, 0.5f * map_scaling_factor)), range(range)
 {
-    this->idle = idle_texture, this->running = running_texture;
+    this->idle = idle_texture, this->running = running_texture, this->attacking = attacking_texture, this->texture = idle;
     this->stepSize = stepSize;
     this->numberOfFrames = numberOfFrames;
     this->width = idle_texture.width / numberOfFrames;
@@ -16,6 +16,14 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
 void Enemy::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
+    // draw the character
+    DrawTexturePro(texture,
+                   Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
+                   Rectangle{this->getScreenPosition().x, this->getScreenPosition().y,
+                             this->scale * static_cast<float>(width), this->scale * static_cast<float>(height)},
+                   Vector2{},
+                   0.0f,
+                   WHITE);
 }
 
 Vector2 Enemy::computeDirection()
