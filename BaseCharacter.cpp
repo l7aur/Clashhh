@@ -20,8 +20,8 @@ void BaseCharacter::tick(float deltaTime)
     this->worldPosition = Vector2Add(this->worldPosition, direction);
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    if(!attackingAnimation)
-        (Vector2Length(direction))? this->texture = this->running : this->texture = this->idle;
+    if (!attackingAnimation)
+        (Vector2Length(direction)) ? this->texture = this->running : this->texture = this->idle;
 
     worldPosition = Vector2Add(worldPosition, direction);
 
@@ -30,10 +30,14 @@ void BaseCharacter::tick(float deltaTime)
     if (this->runningTime >= this->updateTime)
     {
         this->runningTime = 0.0f;
-        if (this->frame == 5 && attackingAnimation) attackingAnimation = false;
+        if (this->frame == 5 && attackingAnimation)
+            attackingAnimation = false;
         this->frame = (this->frame + 1) % numberOfFrames;
     }
-    DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, RED);
+    /* DEBUG */ // draw hitboxes
+    DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
+    /* DEBUG */ // draw attackboxes
+    // DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, RED);
 }
 
 Vector2 BaseCharacter::computeDirection()

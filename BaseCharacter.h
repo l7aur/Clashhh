@@ -10,7 +10,7 @@ class BaseCharacter
 public:
     inline Vector2 getWorldPos() { return worldPosition; }
     void undoMovement();
-    Rectangle getCollisionRec();
+    virtual Rectangle getCollisionRec();
     virtual void tick(float deltaTime); 
     virtual Vector2 computeDirection();
     virtual Vector2 getScreenPosition() = 0; //pure virtual function => abstract class

@@ -33,6 +33,12 @@ void Enemy::tick(float deltaTime)
                    WHITE);
 }
 
+Rectangle Enemy::getCollisionRec()
+{
+    return Rectangle{this->getScreenPosition().x + 88, this->getScreenPosition().y + 80,
+                     25, 40};
+}
+
 Vector2 Enemy::computeDirection()
 {
     // to the left of the character
