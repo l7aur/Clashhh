@@ -11,12 +11,14 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
     this->width = idle_texture.width / numberOfFrames;
     this->height = idle_texture.height;
     this->worldPosition = Vector2Scale(wPosition, map_scaling_factor);
+    this->facingDirection = (rand() % 2) ? 1 : -1;
 }
 
 void Enemy::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
-    if(!attackingAnimation && IsKeyPressed(KEY_G)) {
+    if (!attackingAnimation && IsKeyPressed(KEY_G))
+    {
         texture = attacking;
         attackingAnimation = true;
         this->frame = 0;
@@ -42,7 +44,7 @@ Vector2 Enemy::computeDirection()
     float magnitude = Vector2Length(direction);
     if (magnitude > patrolledArea)
         return {0, 0};
-    if (magnitude < 10.0f) //remove flickering when to the target
+    if (magnitude < 10.0f) // remove flickering when to the target
         return {0, 0};
     if (magnitude < range)
         return {0, 0};
@@ -56,9 +58,12 @@ Vector2 Enemy::getScreenPosition()
 
 Rectangle Enemy::getAttackArea()
 {
-    if(!attackingAnimation) return Rectangle();
-    if(this->frame < 2) return Rectangle();
-    return Rectangle{this->getScreenPosition().x + 150, this->getScreenPosition().y + 100, 20.0f, 25.0f};
+    if (!attackingAnimation)
+        return Rectangle();
+    if (this->frame < 2)
+        return Rectangle();
+    float xCoord = (facingDirection == 1) ? this->getScreenPosition().x + 110 : this->getScreenPosition().x + this->width / 2 + 10;
+    return Rectangle{xCoord, this->getScreenPosition().y + 75, 30.0f, 50.0f};
 }
 
 Enemy::~Enemy()

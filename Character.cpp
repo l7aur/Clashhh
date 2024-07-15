@@ -55,5 +55,6 @@ Rectangle Character::getAttackArea()
 {
     if(!attackingAnimation) return Rectangle();
     if(this->frame == 0 || this->frame == 5) return Rectangle();
-    return Rectangle{this->getScreenPosition().x + 150, this->getScreenPosition().y - 10, 70.0f, 100.0f};
+    float xCoord = (facingDirection == 1) ? this->getScreenPosition().x + 150 : this->getScreenPosition().x + this->width / 2 - 40;
+    return Rectangle{xCoord, this->getScreenPosition().y - 10, 70.0f, 100.0f};
 }
