@@ -53,6 +53,12 @@ int main()
             p->render(main_character->getWorldPos());
             if (CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), main_character->getCollisionRec()))
                 main_character->undoMovement();
+            for(auto o: orcs)
+                if(CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), o->getCollisionRec()))
+                    o->undoMovement();
+            for(auto s: soldiers)
+                if(CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), s->getCollisionRec()))
+                    s->undoMovement();
         }
 
         // update characters

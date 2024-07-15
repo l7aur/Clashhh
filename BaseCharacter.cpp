@@ -35,7 +35,7 @@ void BaseCharacter::tick(float deltaTime)
         this->frame = (this->frame + 1) % numberOfFrames;
     }
     /* DEBUG */ // draw hitboxes
-    DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
+    // DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
     /* DEBUG */ // draw attackboxes
     // DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, RED);
 }

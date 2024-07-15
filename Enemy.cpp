@@ -35,6 +35,8 @@ void Enemy::tick(float deltaTime)
 
 Rectangle Enemy::getCollisionRec()
 {
+    /* DEBUG */ // display collision box
+    // DrawRectangle(this->getScreenPosition().x + 88, this->getScreenPosition().y + 80, 25, 40, BLUE);
     return Rectangle{this->getScreenPosition().x + 88, this->getScreenPosition().y + 80,
                      25, 40};
 }
