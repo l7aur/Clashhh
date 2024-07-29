@@ -7,7 +7,7 @@ Character::Character(const float map_scaling_factor, const int windowWidth, cons
       windowHeight(windowHeight)
 {
     this->setDamage(50.0f);
-    this->setHealth(100);
+    this->setHealth(100.0f);
     this->numberOfDeathFrames = this->numberOfFrames = 10;
     this->idle = idle_texture, this->running = running_texture, this->texture = idle, this->attacking = attacking_texture;
     this->stepSize = stepSize;
@@ -69,6 +69,6 @@ Rectangle Character::getAttackArea()
         return Rectangle();
     if (this->frame == 0 || this->frame == 5)
         return Rectangle();
-    float xCoord = (facingDirection == 1) ? this->getScreenPosition().x + 150 : this->getScreenPosition().x + this->width / 2 - 40;
+    float xCoord = (facingDirection == 1) ? this->getScreenPosition().x + 130 : this->getScreenPosition().x + this->width / 2 - 20;
     return Rectangle{xCoord, this->getScreenPosition().y - 10, 70.0f, 100.0f};
 }

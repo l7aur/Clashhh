@@ -14,6 +14,7 @@ Rectangle BaseCharacter::getCollisionRec()
 
 void BaseCharacter::tick(float deltaTime)
 {
+    this->setHealthBar();
     Vector2 direction = computeDirection();
     this->pastWorldPosition = this->worldPosition;
     this->worldPosition = Vector2Add(this->worldPosition, direction);
@@ -49,6 +50,10 @@ void BaseCharacter::tick(float deltaTime)
             this->frame = (this->frame + 1) % numberOfFrames;
         }
     }
+    /* DEBUG */ // draw hitboxes
+    // DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
+    /* DEBUG */ // draw attackboxes
+    // DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, GREEN);
 }
 
 Vector2 BaseCharacter::computeDirection()
@@ -65,6 +70,17 @@ Vector2 BaseCharacter::computeDirection()
     if (Vector2Length(direction) > stepSize)
         direction = Vector2Scale(Vector2Normalize(direction), stepSize);
     return direction;
+}
+
+void BaseCharacter::setHealthBar()
+{
+    Rectangle boundingBox = this->getCollisionRec();
+    float scale = this->getHealth() / this->getMaximumHealth();
+    if (this->getHealth() > 0)
+    {
+        DrawRectangle(boundingBox.x, boundingBox.y - 20, boundingBox.width, 15, RED);
+        DrawRectangle(boundingBox.x, boundingBox.y - 20, boundingBox.width * scale, 15, GREEN);
+    }
 }
 
 BaseCharacter::~BaseCharacter()

@@ -16,10 +16,12 @@ public:
     virtual Vector2 computeDirection();
     virtual Vector2 getScreenPosition() = 0; //pure virtual function => abstract class
     virtual Rectangle getAttackArea() = 0;
-    inline int getHealth() const { return this->health; };
+    void setHealthBar();
+    inline float getHealth() const { return this->health; };
+    inline float getMaximumHealth() const { return this->maximumHealth; };
     inline float getDamage() const { return this->damage; };
     inline void setDamage(float newDamage) { this->damage = newDamage; };
-    inline void setHealth(int newHealth) { this->health = newHealth; };
+    inline void setHealth(int newHealth) { this->health = this->maximumHealth = newHealth; };
     inline int getFrame() const { return this->frame; };
     inline void takeDamage(float damageTaken) { this->health -= damageTaken; };
     inline STATE getState() const { return currentState; };
@@ -47,7 +49,8 @@ protected:
     bool attackingAnimation{false};
 private:
     STATE currentState{IDLE};
-    unsigned int health{100};
+    float health{100.0f};
+    float maximumHealth{100.0f};
     float damage{0.0f};
 };
 
