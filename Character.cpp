@@ -1,10 +1,13 @@
 #include "Character.h"
 #include "raymath.h"
+#include <iostream>
 
 Character::Character(const float map_scaling_factor, const int windowWidth, const int windowHeight, const float stepSize, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture)
     : windowWidth(windowWidth),
       windowHeight(windowHeight)
 {
+    this->setDamage(50.0f);
+    this->setHealth(100);
     this->idle = idle_texture, this->running = running_texture, this->texture = idle, this->attacking = attacking_texture;
     this->stepSize = stepSize;
     this->width = this->texture.width / numberOfFrames;
@@ -26,6 +29,12 @@ void Character::tick(float deltaTime)
     if(!attackingAnimation && IsKeyPressed(KEY_SPACE)) {
         texture = attacking;
         attackingAnimation = true;
+        this->frame = 0;
+    }
+
+    if(this->getHealth() <= 0 && this->getAlive()) {
+        this->setAlive(false);
+        texture = death;
         this->frame = 0;
     }
     DrawTexturePro(texture,

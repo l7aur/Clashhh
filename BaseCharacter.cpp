@@ -1,6 +1,5 @@
 #include "BaseCharacter.h"
 #include "raymath.h"
-
 void BaseCharacter::undoMovement()
 {
     this->worldPosition = this->pastWorldPosition;
@@ -20,7 +19,7 @@ void BaseCharacter::tick(float deltaTime)
     this->worldPosition = Vector2Add(this->worldPosition, direction);
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    if (!attackingAnimation)
+    if (!attackingAnimation && this->getAlive())
         (Vector2Length(direction)) ? this->texture = this->running : this->texture = this->idle;
 
     worldPosition = Vector2Add(worldPosition, direction);
@@ -30,14 +29,20 @@ void BaseCharacter::tick(float deltaTime)
     if (this->runningTime >= this->updateTime)
     {
         this->runningTime = 0.0f;
-        if (this->frame == 5 && attackingAnimation)
-            attackingAnimation = false;
-        this->frame = (this->frame + 1) % numberOfFrames;
+        if (!this->getAlive())
+            this->frame = (this->frame == 9) ? 9 : this->frame + 1;
+        else
+        {
+            if (this->frame == 5 && attackingAnimation)
+                attackingAnimation = false;
+            this->frame = (this->frame + 1) % numberOfFrames;
+        }
     }
+
     /* DEBUG */ // draw hitboxes
-    // DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
+    DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
     /* DEBUG */ // draw attackboxes
-    // DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, RED);
+    DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, GREEN);
 }
 
 Vector2 BaseCharacter::computeDirection()

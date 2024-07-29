@@ -5,6 +5,8 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
     : target(target), patrolledArea(patrolledArea),
       correctionFactor(Vector2Scale({static_cast<float>(-target->getFigureWidth()), static_cast<float>(target->getFigureHeight())}, 0.5f * map_scaling_factor)), range(range)
 {
+    this->setDamage(10.0f);
+    this->setHealth(50);
     this->idle = idle_texture, this->running = running_texture, this->attacking = attacking_texture, this->texture = idle;
     this->stepSize = stepSize;
     this->numberOfFrames = numberOfFrames;
@@ -17,11 +19,18 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
 void Enemy::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
-    if (!attackingAnimation && IsKeyPressed(KEY_G))
+    bool inCombat = CheckCollisionRecs(this->target->getCollisionRec(), this->getAttackArea());
+
+    if (inCombat)
     {
-        texture = attacking;
-        attackingAnimation = true;
-        this->frame = 0;
+        if (!attackingAnimation)
+        {
+            texture = attacking;
+            attackingAnimation = true;
+            this->frame = 0;
+        }
+        if(this->frame >= 4)
+            this->target->takeDamage(this->getDamage() * deltaTime);
     }
     // draw the character
     DrawTexturePro(texture,
@@ -66,10 +75,6 @@ Vector2 Enemy::getScreenPosition()
 
 Rectangle Enemy::getAttackArea()
 {
-    if (!attackingAnimation)
-        return Rectangle();
-    if (this->frame < 2)
-        return Rectangle();
     float xCoord = (facingDirection == 1) ? this->getScreenPosition().x + 110 : this->getScreenPosition().x + this->width / 2 + 10;
     return Rectangle{xCoord, this->getScreenPosition().y + 75, 30.0f, 50.0f};
 }

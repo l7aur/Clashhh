@@ -18,7 +18,9 @@ int main()
     const float map_rotation_angle = 0.0f;
     const int window_width = 1024;
     const int window_height = 512;
+    float timer = 2.0f;
     const Color background_color = BLACK;
+    bool stop_handling_events = false;
     std::vector<Enemy *> orcs;
     std::vector<Enemy *> soldiers;
     std::vector<Prop *> props;
@@ -35,7 +37,7 @@ int main()
 
     setPropsOnTheMap(props);
     setOrcsOnTheMap(main_character, orcs);
-    setSoldiersOnTheMap(main_character, soldiers);
+    // setSoldiersOnTheMap(main_character, soldiers);
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
@@ -53,21 +55,26 @@ int main()
             p->render(main_character->getWorldPos());
             if (CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), main_character->getCollisionRec()))
                 main_character->undoMovement();
-            for(auto o: orcs)
-                if(CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), o->getCollisionRec()))
+            for (auto o : orcs)
+                if (CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), o->getCollisionRec()))
                     o->undoMovement();
-            for(auto s: soldiers)
-                if(CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), s->getCollisionRec()))
+            for (auto s : soldiers)
+                if (CheckCollisionRecs(p->getCollisionRec(main_character->getWorldPos()), s->getCollisionRec()))
                     s->undoMovement();
         }
 
         // update characters
         float deltaTime = GetFrameTime();
         main_character->tick(deltaTime);
-        for (Enemy *orc : orcs)
-            orc->tick(deltaTime);
-        for (Enemy *soldier : soldiers)
-            soldier->tick(deltaTime);
+        if (!stop_handling_events)
+        {
+            for (Enemy *orc : orcs)
+                orc->tick(deltaTime);
+            for (Enemy *soldier : soldiers)
+                soldier->tick(deltaTime);
+        }
+        else
+            main_character->undoMovement();
 
         // check map bounds
         if (main_character->getWorldPos().x < 0.0f ||
@@ -76,6 +83,13 @@ int main()
             main_character->getWorldPos().y + window_height > background.height * map_scaling_factor)
         {
             main_character->undoMovement();
+        }
+
+        if (!main_character->getAlive())
+        {
+            DrawText("GAME ENDED!", 370, 170, 40, BLACK);
+            stop_handling_events = true;
+            timer -= deltaTime;
         }
 
         // collision boxes debug
@@ -99,6 +113,8 @@ int main()
                     );*/
 
         EndDrawing();
+        if (timer <= 0)
+            break;
     }
 
     UnloadTexture(background);

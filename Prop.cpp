@@ -23,6 +23,6 @@ Rectangle Prop::getCollisionRec(Vector2 characterPosition)
         this->texture.width * this->scalingFactor - 2 * minimize, this->texture.height * this->scalingFactor - 2 * minimize};
 }
 
-// Prop::~Prop() {
-//     UnloadTexture(this->texture);
-// }
+Prop::~Prop() {
+    UnloadTexture(this->texture);
+}

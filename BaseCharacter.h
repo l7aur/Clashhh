@@ -15,10 +15,19 @@ public:
     virtual Vector2 computeDirection();
     virtual Vector2 getScreenPosition() = 0; //pure virtual function => abstract class
     virtual Rectangle getAttackArea() = 0;
-    ~BaseCharacter();
+    inline bool getAlive() const { return this->alive; };
+    inline void setAlive(bool newState) { this->alive = newState; };
+    inline int getHealth() const { return this->health; };
+    inline float getDamage() const { return this->damage; };
+    inline void setDamage(float newDamage) { this->damage = newDamage; };
+    inline void setHealth(int newHealth) { this->health = newHealth; };
+    inline int getFrame() const { return this->frame; };
+    inline void takeDamage(float damageTaken) { this->health -= damageTaken; };
+    ~BaseCharacter(); 
 protected:
 
     Texture2D idle{};
+    Texture2D death{LoadTexture("assets\\characters\\main_character\\_Death.png")};
     Texture2D running{};
     Texture2D attacking{};
     Texture2D texture{};
@@ -35,7 +44,9 @@ protected:
     float stepSize{0};
     bool attackingAnimation{false};
 private:
-
+    bool alive{true};
+    unsigned int health{100};
+    float damage{0};
 };
 
 #endif
