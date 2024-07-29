@@ -8,6 +8,7 @@ Character::Character(const float map_scaling_factor, const int windowWidth, cons
 {
     this->setDamage(50.0f);
     this->setHealth(100);
+    this->numberOfDeathFrames = this->numberOfFrames = 10;
     this->idle = idle_texture, this->running = running_texture, this->texture = idle, this->attacking = attacking_texture;
     this->stepSize = stepSize;
     this->width = this->texture.width / numberOfFrames;
@@ -26,15 +27,19 @@ void Character::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
     // draw the character
-    if(!attackingAnimation && IsKeyPressed(KEY_SPACE)) {
+    if (!attackingAnimation && IsKeyPressed(KEY_SPACE))
+    {
         texture = attacking;
         attackingAnimation = true;
+        this->setState(STATE::ATTACKING);
         this->frame = 0;
     }
 
-    if(this->getHealth() <= 0 && this->getAlive()) {
+    if (this->getHealth() <= 0 && this->getAlive())
+    {
         this->setAlive(false);
         texture = death;
+        this->setState(STATE::DEAD);
         this->frame = 0;
     }
     DrawTexturePro(texture,
@@ -48,10 +53,9 @@ void Character::tick(float deltaTime)
 
 Vector2 Character::computeDirection()
 {
-    if(attackingAnimation) 
+    if (attackingAnimation)
         return {0, 0};
-    else
-        return BaseCharacter::computeDirection();
+    return BaseCharacter::computeDirection();
 }
 
 inline Vector2 Character::getScreenPosition()
@@ -62,8 +66,10 @@ inline Vector2 Character::getScreenPosition()
 
 Rectangle Character::getAttackArea()
 {
-    if(!attackingAnimation) return Rectangle();
-    if(this->frame == 0 || this->frame == 5) return Rectangle();
+    if (!attackingAnimation || this->getState() == STATE::DEAD)
+        return Rectangle();
+    if (this->frame == 0 || this->frame == 5)
+        return Rectangle();
     float xCoord = (facingDirection == 1) ? this->getScreenPosition().x + 150 : this->getScreenPosition().x + this->width / 2 - 40;
     return Rectangle{xCoord, this->getScreenPosition().y - 10, 70.0f, 100.0f};
 }

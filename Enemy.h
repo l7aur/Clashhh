@@ -7,7 +7,7 @@
 class Enemy : public BaseCharacter
 {
 public:
-    Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrollableArea, const float range, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture);
+    Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrollableArea, const float range, const float damage, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture, Texture2D death_texture);
     virtual void tick(float deltaTime) override;
     virtual Rectangle getCollisionRec() override;
     inline void setTarget(Character *character) { this->target = character; }

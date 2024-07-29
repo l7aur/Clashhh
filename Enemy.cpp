@@ -1,37 +1,52 @@
 #include "Enemy.h"
 #include "raymath.h"
 
-Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrolledArea, const float range, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture)
-    : target(target), patrolledArea(patrolledArea),
+Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrollableArea, const float range, const float damage, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture, Texture2D death_texture)
+    : target(target), patrolledArea(patrollableArea),
       correctionFactor(Vector2Scale({static_cast<float>(-target->getFigureWidth()), static_cast<float>(target->getFigureHeight())}, 0.5f * map_scaling_factor)), range(range)
 {
     this->setDamage(10.0f);
     this->setHealth(50);
-    this->idle = idle_texture, this->running = running_texture, this->attacking = attacking_texture, this->texture = idle;
+    this->idle = idle_texture, this->running = running_texture, this->attacking = attacking_texture, this->death = death_texture, this->texture = idle;
     this->stepSize = stepSize;
+    this->setDamage(damage);
     this->numberOfFrames = numberOfFrames;
     this->width = idle_texture.width / numberOfFrames;
     this->height = idle_texture.height;
     this->worldPosition = Vector2Scale(wPosition, map_scaling_factor);
     this->facingDirection = (rand() % 2) ? 1 : -1;
+    this->numberOfDeathFrames = 4;
 }
 
 void Enemy::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
-    bool inCombat = CheckCollisionRecs(this->target->getCollisionRec(), this->getAttackArea());
+    bool enemyCanAttack = CheckCollisionRecs(this->target->getCollisionRec(), this->getAttackArea());
 
-    if (inCombat)
+    if (enemyCanAttack && this->getState() != STATE::DEAD)
     {
         if (!attackingAnimation)
         {
             texture = attacking;
             attackingAnimation = true;
+            this->setState(STATE::ATTACKING);
             this->frame = 0;
         }
         if(this->frame >= 4)
             this->target->takeDamage(this->getDamage() * deltaTime);
     }
+
+    //add logic for damage taken from main character
+    
+    if(CheckCollisionRecs(this->getCollisionRec(), this->target->getAttackArea()) && this->target->getState() == ATTACKING)
+        this->takeDamage(deltaTime * this->target->getDamage());
+    if(this->getHealth() <= 0 && this->getState() != STATE::DEAD) {
+        this->setState(STATE::DEAD);
+        this->texture = death;
+        this->setAlive(false);
+        this->frame = 0;
+    }
+
     // draw the character
     DrawTexturePro(texture,
                    Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
@@ -52,6 +67,8 @@ Rectangle Enemy::getCollisionRec()
 
 Vector2 Enemy::computeDirection()
 {
+    if(this->getState() == STATE::DEAD)
+        return {};
     // to the left of the character
     Vector2 direction1 = Vector2Subtract(this->target->getScreenPosition(), this->getScreenPosition());
     direction1.y -= correctionFactor.y;

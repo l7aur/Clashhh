@@ -20,7 +20,18 @@ void BaseCharacter::tick(float deltaTime)
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
     if (!attackingAnimation && this->getAlive())
-        (Vector2Length(direction)) ? this->texture = this->running : this->texture = this->idle;
+    {
+        if (Vector2Length(direction))
+        {
+            this->texture = this->running;
+            this->setState(RUNNING);
+        }
+        else
+        {
+            this->texture = this->idle;
+            this->setState(IDLE);
+        }
+    }
 
     worldPosition = Vector2Add(worldPosition, direction);
 
@@ -30,7 +41,7 @@ void BaseCharacter::tick(float deltaTime)
     {
         this->runningTime = 0.0f;
         if (!this->getAlive())
-            this->frame = (this->frame == 9) ? 9 : this->frame + 1;
+            this->frame = (this->frame == numberOfDeathFrames - 1) ? numberOfDeathFrames - 1 : this->frame + 1;
         else
         {
             if (this->frame == 5 && attackingAnimation)
