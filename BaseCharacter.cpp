@@ -19,17 +19,17 @@ void BaseCharacter::tick(float deltaTime)
     this->worldPosition = Vector2Add(this->worldPosition, direction);
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    if (!attackingAnimation && this->getAlive())
+    if (!attackingAnimation && this->getState() != STATE::DEAD)
     {
         if (Vector2Length(direction))
         {
             this->texture = this->running;
-            this->setState(RUNNING);
+            this->setState(STATE::RUNNING);
         }
         else
         {
             this->texture = this->idle;
-            this->setState(IDLE);
+            this->setState(STATE::IDLE);
         }
     }
 
@@ -40,7 +40,7 @@ void BaseCharacter::tick(float deltaTime)
     if (this->runningTime >= this->updateTime)
     {
         this->runningTime = 0.0f;
-        if (!this->getAlive())
+        if (this->getState() == STATE::DEAD)
             this->frame = (this->frame == numberOfDeathFrames - 1) ? numberOfDeathFrames - 1 : this->frame + 1;
         else
         {
@@ -49,11 +49,6 @@ void BaseCharacter::tick(float deltaTime)
             this->frame = (this->frame + 1) % numberOfFrames;
         }
     }
-
-    /* DEBUG */ // draw hitboxes
-    DrawRectangle(getCollisionRec().x, getCollisionRec().y, getCollisionRec().width, getCollisionRec().height, RED);
-    /* DEBUG */ // draw attackboxes
-    DrawRectangle(getAttackArea().x, getAttackArea().y, getAttackArea().width, getAttackArea().height, GREEN);
 }
 
 Vector2 BaseCharacter::computeDirection()

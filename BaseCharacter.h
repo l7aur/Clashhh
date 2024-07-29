@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-const Vector2 spawnpoint = {2500, 1000}; 
+const Vector2 spawnpoint = {2500, 1000};
 enum STATE {IDLE, ATTACKING, DEAD, RUNNING};
 
 class BaseCharacter
@@ -16,8 +16,6 @@ public:
     virtual Vector2 computeDirection();
     virtual Vector2 getScreenPosition() = 0; //pure virtual function => abstract class
     virtual Rectangle getAttackArea() = 0;
-    inline bool getAlive() const { return this->alive; };
-    inline void setAlive(bool newState) { this->alive = newState; };
     inline int getHealth() const { return this->health; };
     inline float getDamage() const { return this->damage; };
     inline void setDamage(float newDamage) { this->damage = newDamage; };
@@ -49,7 +47,6 @@ protected:
     bool attackingAnimation{false};
 private:
     STATE currentState{IDLE};
-    bool alive{true};
     unsigned int health{100};
     float damage{0.0f};
 };

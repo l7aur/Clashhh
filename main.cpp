@@ -37,7 +37,7 @@ int main()
 
     setPropsOnTheMap(props);
     setOrcsOnTheMap(main_character, orcs);
-    // setSoldiersOnTheMap(main_character, soldiers);
+    setSoldiersOnTheMap(main_character, soldiers);
 
     SetTargetFPS(120);
     while (!WindowShouldClose())
@@ -85,7 +85,7 @@ int main()
             main_character->undoMovement();
         }
 
-        if (!main_character->getAlive())
+        if(main_character->getState() == STATE::DEAD)
         {
             DrawText("GAME ENDED!", 370, 170, 40, BLACK);
             stop_handling_events = true;

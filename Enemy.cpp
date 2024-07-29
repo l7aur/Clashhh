@@ -43,7 +43,6 @@ void Enemy::tick(float deltaTime)
     if(this->getHealth() <= 0 && this->getState() != STATE::DEAD) {
         this->setState(STATE::DEAD);
         this->texture = death;
-        this->setAlive(false);
         this->frame = 0;
     }
 
@@ -59,8 +58,6 @@ void Enemy::tick(float deltaTime)
 
 Rectangle Enemy::getCollisionRec()
 {
-    /* DEBUG */ // display collision box
-    // DrawRectangle(this->getScreenPosition().x + 88, this->getScreenPosition().y + 80, 25, 40, BLUE);
     return Rectangle{this->getScreenPosition().x + 88, this->getScreenPosition().y + 80,
                      25, 40};
 }
@@ -78,7 +75,7 @@ Vector2 Enemy::computeDirection()
     float magnitude = Vector2Length(direction);
     if (magnitude > patrolledArea)
         return {0, 0};
-    if (magnitude < 10.0f) // remove flickering when to the target
+    if (magnitude < 10.0f) // remove flickering when next to the target
         return {0, 0};
     if (magnitude < range)
         return {0, 0};

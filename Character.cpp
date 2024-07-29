@@ -35,9 +35,8 @@ void Character::tick(float deltaTime)
         this->frame = 0;
     }
 
-    if (this->getHealth() <= 0 && this->getAlive())
+    if (this->getHealth() <= 0 && this->getState() != STATE::DEAD)
     {
-        this->setAlive(false);
         texture = death;
         this->setState(STATE::DEAD);
         this->frame = 0;
