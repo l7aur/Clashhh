@@ -12,7 +12,7 @@ void setOrcsOnTheMap(Character *main_character, std::vector<Enemy *> &orcs);
 void setSoldiersOnTheMap(Character *main_character, std::vector<Enemy *> &soldiers);
 int enemyTick(std::vector<Enemy *> &enemies, const float deltaTime);
 
-/** TODO
+/** TODO viitor
  * Update enemy pathing so that it can go around blocks to reach the main character
  * Fix map props: characters should not walk on water or on the ropes of the bridges
  * Detail the map
