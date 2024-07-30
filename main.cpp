@@ -107,6 +107,7 @@ int main()
         delete e;
     for(Prop * p: props)
         delete p;
+    delete main_character;
     UnloadTexture(background);
 
     CloseWindow();
