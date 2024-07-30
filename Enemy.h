@@ -17,6 +17,7 @@ public:
     ~Enemy();
 
 private:
+    Texture2D hurt{LoadTexture("assets\\characters\\orc\\Orc-Hurt.png")};
     Character *target;
     float patrolledArea;
     Vector2 correctionFactor; //corrects the placement of the enemy against the target (from bottom corner to middle of the spritesheet)

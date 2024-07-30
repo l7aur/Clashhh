@@ -4,17 +4,24 @@
 #include "raylib.h"
 
 const Vector2 spawnpoint = {2500, 1000};
-enum STATE {IDLE, ATTACKING, DEAD, RUNNING};
+enum STATE
+{
+    IDLE,
+    ATTACKING,
+    DEAD,
+    RUNNING,
+    HURT
+};
 
 class BaseCharacter
 {
 public:
     inline Vector2 getWorldPos() { return worldPosition; }
-    void undoMovement();
+    inline void undoMovement() { this->worldPosition = this->pastWorldPosition; };
     virtual Rectangle getCollisionRec();
-    virtual void tick(float deltaTime); 
+    virtual void tick(float deltaTime);
     virtual Vector2 computeDirection();
-    virtual Vector2 getScreenPosition() = 0; //pure virtual function => abstract class
+    virtual Vector2 getScreenPosition() = 0; // pure virtual function => abstract class
     virtual Rectangle getAttackArea() = 0;
     void setHealthBar();
     inline float getHealth() const { return this->health; };
@@ -26,9 +33,9 @@ public:
     inline void takeDamage(float damageTaken) { this->health -= damageTaken; };
     inline STATE getState() const { return currentState; };
     inline void setState(STATE newState) { this->currentState = newState; };
-    ~BaseCharacter(); 
-protected:
+    ~BaseCharacter();
 
+protected:
     Texture2D idle{};
     Texture2D death{LoadTexture("assets\\characters\\main_character\\_Death.png")};
     Texture2D running{};
@@ -47,6 +54,7 @@ protected:
     const float scale{2.0f};
     float stepSize{0};
     bool attackingAnimation{false};
+
 private:
     STATE currentState{IDLE};
     float health{100.0f};

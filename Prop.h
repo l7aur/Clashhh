@@ -12,6 +12,7 @@ public:
     void render(Vector2 characterPosition);
     Rectangle getCollisionRec(Vector2 characterPosition);
     ~Prop();
+    
 private:
     Vector2 worldPosition{};
     Texture2D texture{};

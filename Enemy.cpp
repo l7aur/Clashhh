@@ -23,7 +23,7 @@ void Enemy::tick(float deltaTime)
     BaseCharacter::tick(deltaTime);
     bool enemyCanAttack = CheckCollisionRecs(this->target->getCollisionRec(), this->getAttackArea());
 
-    if (enemyCanAttack && this->getState() != STATE::DEAD)
+    if (enemyCanAttack && this->getState() != STATE::DEAD && this->getState() != STATE::HURT)
     {
         if (!attackingAnimation)
         {
@@ -38,8 +38,13 @@ void Enemy::tick(float deltaTime)
 
     //add logic for damage taken from main character
     
-    if(CheckCollisionRecs(this->getCollisionRec(), this->target->getAttackArea()) && this->target->getState() == ATTACKING)
+    if(CheckCollisionRecs(this->getCollisionRec(), this->target->getAttackArea()) && this->target->getState() == ATTACKING) {
         this->takeDamage(deltaTime * this->target->getDamage());
+        this->setState(STATE::HURT);
+        texture = hurt;
+        attackingAnimation = false;
+        this->frame = 1;
+    }
     if(this->getHealth() <= 0 && this->getState() != STATE::DEAD) {
         this->setState(STATE::DEAD);
         this->texture = death;
@@ -58,8 +63,7 @@ void Enemy::tick(float deltaTime)
 
 Rectangle Enemy::getCollisionRec()
 {
-    return Rectangle{this->getScreenPosition().x + 88, this->getScreenPosition().y + 80,
-                     25, 40};
+    return Rectangle{this->getScreenPosition().x + 88, this->getScreenPosition().y + 80, 25, 40};
 }
 
 Vector2 Enemy::computeDirection()

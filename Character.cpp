@@ -26,6 +26,7 @@ Character::~Character()
 void Character::tick(float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
+    
     // draw the character
     if (!attackingAnimation && IsKeyPressed(KEY_SPACE))
     {

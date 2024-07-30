@@ -1,9 +1,5 @@
 #include "BaseCharacter.h"
 #include "raymath.h"
-void BaseCharacter::undoMovement()
-{
-    this->worldPosition = this->pastWorldPosition;
-}
 
 Rectangle BaseCharacter::getCollisionRec()
 {
@@ -20,7 +16,7 @@ void BaseCharacter::tick(float deltaTime)
     this->worldPosition = Vector2Add(this->worldPosition, direction);
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    if (!attackingAnimation && this->getState() != STATE::DEAD)
+    if (!attackingAnimation && this->getState() != STATE::DEAD && this->getState() != STATE::HURT)
     {
         if (Vector2Length(direction))
         {
@@ -43,6 +39,12 @@ void BaseCharacter::tick(float deltaTime)
         this->runningTime = 0.0f;
         if (this->getState() == STATE::DEAD)
             this->frame = (this->frame == numberOfDeathFrames - 1) ? numberOfDeathFrames - 1 : this->frame + 1;
+        else if (this->getState() == STATE::HURT)
+        {
+            if (this->frame == 3)
+                this->setState(STATE::IDLE);
+            frame = (this->frame + 1) % 4;
+        }
         else
         {
             if (this->frame == 5 && attackingAnimation)
