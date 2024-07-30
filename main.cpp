@@ -101,6 +101,12 @@ int main()
             break;
     }
 
+    for(Enemy * e: orcs)
+        delete e;
+    for(Enemy * e: soldiers)
+        delete e;
+    for(Prop * p: props)
+        delete p;
     UnloadTexture(background);
 
     CloseWindow();
