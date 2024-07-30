@@ -22,6 +22,26 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
 void Enemy::tick(const float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
+    
+    if (this->runningTime >= this->updateTime)
+    {
+        this->runningTime = 0.0f;
+        if (this->getState() == STATE::DEAD)
+            this->frame = (this->frame == numberOfDeathFrames - 1) ? numberOfDeathFrames - 1 : this->frame + 1;
+        else if (this->getState() == STATE::HURT)
+        {
+            if (this->frame == 3)
+                this->setState(STATE::IDLE);
+            frame = (this->frame + 1) % 4;
+        }
+        else
+        {
+            if (this->frame == 5 && this->getState() == STATE::ATTACKING)
+                this->setState(STATE::IDLE);
+            this->frame = (this->frame + 1) % numberOfFrames;
+        }
+    }
+
     bool enemyCanAttack = CheckCollisionRecs(this->target->getCollisionRec(), this->getAttackArea());
 
     if (enemyCanAttack && this->getState() != STATE::DEAD && this->getState() != STATE::HURT)

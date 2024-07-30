@@ -78,7 +78,7 @@ int main()
         if (main_character->getState() == STATE::DEAD)
         {
             stop_handling_events = true;
-            DrawText("GAME ENDED!", 370, 160, 40, BLACK);
+            DrawText("YOU DIED!", 370, 160, 40, BLACK);
             main_character->displayDead(deltaTime);
         }
         if (remaining_enemies <= 164)

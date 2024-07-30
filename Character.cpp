@@ -28,6 +28,14 @@ Character::~Character()
 void Character::tick(const float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
+
+    if (this->runningTime >= this->updateTime)
+    {
+        this->runningTime = 0.0f;
+        if (this->frame == 5 && this->getState() == STATE::ATTACKING)
+            this->setState(STATE::IDLE);
+        this->frame = (this->frame + 1) % numberOfFrames;
+    }
     
     // draw the character
     if (this->getState() != STATE::ATTACKING && IsKeyPressed(KEY_SPACE))
@@ -38,11 +46,8 @@ void Character::tick(const float deltaTime)
     }
 
     if (this->getHealth() <= 0 && this->getState() != STATE::DEAD)
-    {
-        // texture = death;
         this->setState(STATE::DEAD);
-        // this->frame = 0;
-    }
+
     DrawTexturePro(texture,
                    Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
                    Rectangle{this->getScreenPosition().x, this->getScreenPosition().y,
@@ -78,7 +83,8 @@ Rectangle Character::getAttackArea()
 void Character::displayIdle(const float deltaTime)
 {
     this->runningTime += deltaTime;
-    if(this->runningTime >= this->updateTime){
+    if (this->runningTime >= this->updateTime)
+    {
         this->runningTime = 0.0f;
         this->frame = (this->frame + 1) % numberOfFrames;
     }
@@ -94,10 +100,12 @@ void Character::displayIdle(const float deltaTime)
 void Character::displayDead(const float deltaTime)
 {
     this->runningTime += deltaTime;
-    if(this->runningTime >= this->updateTime){
+    if (this->runningTime >= this->updateTime)
+    {
         this->runningTime = 0.0f;
         this->frame = (this->frame + 1) % this->numberOfDeathFrames;
-        if(!this->frame) this->frame = this->numberOfDeathFrames - 1;
+        if (!this->frame)
+            this->frame = this->numberOfDeathFrames - 1;
     }
     DrawTexturePro(this->death,
                    Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
