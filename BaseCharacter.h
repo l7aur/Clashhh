@@ -53,7 +53,6 @@ protected:
     int numberOfDeathFrames{1};
     const float scale{2.0f};
     float stepSize{0};
-    bool attackingAnimation{false};
 
 private:
     STATE currentState{IDLE};

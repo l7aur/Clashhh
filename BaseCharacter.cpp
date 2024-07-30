@@ -16,7 +16,7 @@ void BaseCharacter::tick(float deltaTime)
     this->worldPosition = Vector2Add(this->worldPosition, direction);
     if (direction.x)
         (direction.x > 0) ? this->facingDirection = 1 : this->facingDirection = -1;
-    if (!attackingAnimation && this->getState() != STATE::DEAD && this->getState() != STATE::HURT)
+    if (this->getState() != STATE::ATTACKING && this->getState() != STATE::HURT && this->getState() != STATE::DEAD)//attackingAnimation == false && this->getState() != STATE::DEAD && this->getState() != STATE::HURT)
     {
         if (Vector2Length(direction))
         {
@@ -47,8 +47,8 @@ void BaseCharacter::tick(float deltaTime)
         }
         else
         {
-            if (this->frame == 5 && attackingAnimation)
-                attackingAnimation = false;
+            if (this->frame == 5 && this->getState() == STATE::ATTACKING)
+                this->setState(STATE::IDLE);
             this->frame = (this->frame + 1) % numberOfFrames;
         }
     }

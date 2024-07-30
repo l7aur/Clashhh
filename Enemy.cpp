@@ -25,30 +25,32 @@ void Enemy::tick(float deltaTime)
 
     if (enemyCanAttack && this->getState() != STATE::DEAD && this->getState() != STATE::HURT)
     {
-        if (!attackingAnimation)
+        if (this->getState() != STATE::ATTACKING)
         {
-            texture = attacking;
-            attackingAnimation = true;
+            this->texture = attacking;
             this->setState(STATE::ATTACKING);
             this->frame = 0;
         }
-        if(this->frame >= 4)
+        if (this->frame >= 4)
             this->target->takeDamage(this->getDamage() * deltaTime);
     }
 
-    //add logic for damage taken from main character
-    
-    if(CheckCollisionRecs(this->getCollisionRec(), this->target->getAttackArea()) && this->target->getState() == ATTACKING) {
-        this->takeDamage(deltaTime * this->target->getDamage());
-        this->setState(STATE::HURT);
-        texture = hurt;
-        attackingAnimation = false;
-        this->frame = 1;
-    }
-    if(this->getHealth() <= 0 && this->getState() != STATE::DEAD) {
-        this->setState(STATE::DEAD);
-        this->texture = death;
-        this->frame = 0;
+    // main character damages the enemies
+    if (this->getState() != STATE::DEAD)
+    {
+        if (CheckCollisionRecs(this->getCollisionRec(), this->target->getAttackArea()) && this->target->getState() == STATE::ATTACKING)
+        {
+            this->takeDamage(deltaTime * this->target->getDamage());
+            this->setState(STATE::HURT);
+            this->texture = hurt;
+            this->frame = 1;
+        }
+        if (this->getHealth() <= 0)
+        {
+            this->setState(STATE::DEAD);
+            this->texture = death;
+            this->frame = 0;
+        }
     }
 
     // draw the character
@@ -68,7 +70,7 @@ Rectangle Enemy::getCollisionRec()
 
 Vector2 Enemy::computeDirection()
 {
-    if(this->getState() == STATE::DEAD)
+    if (this->getState() == STATE::DEAD)
         return {};
     // to the left of the character
     Vector2 direction1 = Vector2Subtract(this->target->getScreenPosition(), this->getScreenPosition());

@@ -28,10 +28,9 @@ void Character::tick(float deltaTime)
     BaseCharacter::tick(deltaTime);
     
     // draw the character
-    if (!attackingAnimation && IsKeyPressed(KEY_SPACE))
+    if (this->getState() != STATE::ATTACKING && IsKeyPressed(KEY_SPACE))
     {
         texture = attacking;
-        attackingAnimation = true;
         this->setState(STATE::ATTACKING);
         this->frame = 0;
     }
@@ -53,7 +52,7 @@ void Character::tick(float deltaTime)
 
 Vector2 Character::computeDirection()
 {
-    if (attackingAnimation)
+    if (this->getState() == STATE::ATTACKING)
         return {0, 0};
     return BaseCharacter::computeDirection();
 }
@@ -66,7 +65,7 @@ inline Vector2 Character::getScreenPosition()
 
 Rectangle Character::getAttackArea()
 {
-    if (!attackingAnimation || this->getState() == STATE::DEAD)
+    if (this->getState() != STATE::ATTACKING)
         return Rectangle();
     if (this->frame == 0 || this->frame == 5)
         return Rectangle();
