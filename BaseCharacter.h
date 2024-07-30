@@ -19,7 +19,7 @@ public:
     inline Vector2 getWorldPos() { return worldPosition; }
     inline void undoMovement() { this->worldPosition = this->pastWorldPosition; };
     virtual Rectangle getCollisionRec();
-    virtual void tick(float deltaTime);
+    virtual void tick(const float deltaTime);
     virtual Vector2 computeDirection();
     virtual Vector2 getScreenPosition() = 0; // pure virtual function => abstract class
     virtual Rectangle getAttackArea() = 0;
@@ -33,13 +33,14 @@ public:
     inline void takeDamage(float damageTaken) { this->health -= damageTaken; };
     inline STATE getState() const { return currentState; };
     inline void setState(STATE newState) { this->currentState = newState; };
-    ~BaseCharacter();
+    virtual ~BaseCharacter() {};
 
 protected:
     Texture2D idle{};
     Texture2D death{LoadTexture("assets\\characters\\main_character\\_Death.png")};
     Texture2D running{};
     Texture2D attacking{};
+    Texture2D hurt{};
     Texture2D texture{};
     Vector2 worldPosition{spawnpoint};
     Vector2 pastWorldPosition{};

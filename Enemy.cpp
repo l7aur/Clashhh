@@ -1,13 +1,14 @@
 #include "Enemy.h"
 #include "raymath.h"
 
-Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrollableArea, const float range, const float damage, const float enemy_health, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture, Texture2D death_texture)
+Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *target, int numberOfFrames, const float stepSize, const float patrollableArea, const float range, const float damage, const float enemy_health, Texture2D idle_texture, Texture2D running_texture, Texture2D attacking_texture, Texture2D hurt_texure, Texture2D death_texture)
     : target(target), patrolledArea(patrollableArea),
       correctionFactor(Vector2Scale({static_cast<float>(-target->getFigureWidth()), static_cast<float>(target->getFigureHeight())}, 0.5f * map_scaling_factor)), range(range)
 {
     this->setDamage(damage);
     this->setHealth(enemy_health);
-    this->idle = idle_texture, this->running = running_texture, this->attacking = attacking_texture, this->death = death_texture, this->texture = idle;
+    this->idle = idle_texture, this->running = running_texture, this->attacking = attacking_texture;
+    this->death = death_texture, this->hurt = hurt_texure, this->texture = idle;
     this->stepSize = stepSize;
     this->setDamage(damage);
     this->numberOfFrames = numberOfFrames;
@@ -18,7 +19,7 @@ Enemy::Enemy(const float map_scaling_factor, Vector2 wPosition, Character *targe
     this->numberOfDeathFrames = 4;
 }
 
-void Enemy::tick(float deltaTime)
+void Enemy::tick(const float deltaTime)
 {
     BaseCharacter::tick(deltaTime);
     bool enemyCanAttack = CheckCollisionRecs(this->target->getCollisionRec(), this->getAttackArea());
@@ -52,6 +53,8 @@ void Enemy::tick(float deltaTime)
             this->frame = 0;
         }
     }
+    else
+        this->deathTimer += deltaTime;
 
     // draw the character
     DrawTexturePro(texture,
@@ -103,5 +106,7 @@ Enemy::~Enemy()
 {
     UnloadTexture(idle);
     UnloadTexture(running);
-    UnloadTexture(texture);
+    UnloadTexture(attacking);
+    UnloadTexture(hurt);
+    UnloadTexture(death);
 }

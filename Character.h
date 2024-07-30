@@ -11,6 +11,8 @@ public:
     virtual Vector2 computeDirection() override;
     virtual Vector2 getScreenPosition() override;
     virtual Rectangle getAttackArea() override;
+    void displayIdle(const float deltaTime);
+    void displayDead(const float deltaTime);
     inline int getFigureHeight() { return 40; }
     inline int getFigureWidth() { return 30; }
     ~Character();

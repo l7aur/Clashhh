@@ -8,8 +8,9 @@ Rectangle BaseCharacter::getCollisionRec()
         30 * this->scale, this->height * this->scale};
 }
 
-void BaseCharacter::tick(float deltaTime)
+void BaseCharacter::tick(const float deltaTime)
 {
+    this->runningTime += deltaTime;
     this->setHealthBar();
     Vector2 direction = computeDirection();
     this->pastWorldPosition = this->worldPosition;
@@ -33,7 +34,6 @@ void BaseCharacter::tick(float deltaTime)
     worldPosition = Vector2Add(worldPosition, direction);
 
     // change the frame of character
-    this->runningTime += deltaTime;
     if (this->runningTime >= this->updateTime)
     {
         this->runningTime = 0.0f;
@@ -83,11 +83,4 @@ void BaseCharacter::setHealthBar()
         DrawRectangle(boundingBox.x, boundingBox.y - 20, boundingBox.width, 15, RED);
         DrawRectangle(boundingBox.x, boundingBox.y - 20, boundingBox.width * scale, 15, GREEN);
     }
-}
-
-BaseCharacter::~BaseCharacter()
-{
-    UnloadTexture(idle);
-    UnloadTexture(running);
-    UnloadTexture(texture);
 }
