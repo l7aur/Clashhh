@@ -81,7 +81,7 @@ int main()
             DrawText("YOU DIED!", 370, 160, 40, BLACK);
             main_character->displayDead(deltaTime);
         }
-        if (remaining_enemies <= 164)
+        if (remaining_enemies <= 0)
         {
             stop_handling_events = true;
             DrawText("YOU WON!", 370, 160, 60, BLACK);
