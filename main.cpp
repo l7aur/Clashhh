@@ -106,6 +106,7 @@ int main()
         if (timer <= 0)
             break;
     }
+    CloseWindow();
 
     for(Enemy * e: orcs)
         delete e;
@@ -116,7 +117,6 @@ int main()
     delete main_character;
     UnloadTexture(background);
 
-    CloseWindow();
     return 0;
 }
 

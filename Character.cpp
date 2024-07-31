@@ -45,9 +45,11 @@ void Character::tick(const float deltaTime)
         this->frame = 0;
     }
 
-    if (this->getHealth() <= 0 && this->getState() != STATE::DEAD)
+    if (this->getHealth() <= 0 && this->getState() != STATE::DEAD) {
+        this->frame = 0;
         this->setState(STATE::DEAD);
-
+    }
+    
     DrawTexturePro(texture,
                    Rectangle{static_cast<float>(frame * width), static_cast<float>(height), static_cast<float>(facingDirection * width), static_cast<float>(height)},
                    Rectangle{this->getScreenPosition().x, this->getScreenPosition().y,
